@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using TodoAPI.Models;
+using TodoAPI.Infrastructure;
+using TodoAPI.Interfaces;
 
 namespace TodoAPI.Controllers;
 
@@ -8,77 +11,35 @@ public class TodoController : ControllerBase
 {
 
     private readonly ILogger<TodoController> _logger;
+    private ITodoListRepository _repository;
 
-    public TodoController(ILogger<TodoController> logger)
+    public TodoController(ILogger<TodoController> logger,ITodoListRepository repository)
     {
+        _repository=repository;
         _logger = logger;
     }
 
     [HttpGet(Name = "GetExistingTodos")]
-    public string GetExistingTodos()
+    public List<Todo> GetExistingTodos()
     {
-        using (var db = new Models.ToDoContext())
-            {
-                // Note: This sample requires the database to be created before running.
-                Console.WriteLine($"Database path: {db.DbPath}.");
-                return String.Join(",",db.Todos.Select(x=>x.TodoName));
-            }
+        return _repository.GetTodos();
     }
 
     [HttpPost(Name = "AddTodo")]
-    public string AddTodo(string theTodoItem)
+    public Todo AddTodo(Todo todo)
     {
-        using (var db = new Models.ToDoContext())
-            {
-                // Note: This sample requires the database to be created before running.
-                Console.WriteLine($"Database path: {db.DbPath}.");
-                
-                // Create
-                Console.WriteLine("Inserting a new item in todo list");
-                db.Add(new Models.Todo {TodoName = theTodoItem});
-                db.SaveChanges();
-
-                //show new list
-                return String.Join(",",db.Todos.Select(x=> $"ID: {x.TodoId} Name: {x.TodoName}"));
-            }
+        return _repository.AddTodo(todo);
     }
 
     [HttpPut(Name = "UpdateTodo")]
-    public string GetExistingTodos(int todoId, string description)
+    public Todo UpdateTodo(Todo todo)
     {
-        using (var db = new Models.ToDoContext())
-            {
-                // Note: This sample requires the database to be created before running.
-                Console.WriteLine($"Database path: {db.DbPath}.");
-                
-                var existingTodo = db.Todos.Where(x=>x.TodoId==todoId).First();
-
-                existingTodo.TodoName=description;
-
-                db.Update(existingTodo);
-                db.SaveChanges();
-
-                //show new list
-                return String.Join(",",db.Todos.Select(x=> $"ID: {x.TodoId} Name: {x.TodoName}"));
-            }
+        return _repository.UpdateTodo(todo);
     }
 
     [HttpDelete(Name = "DeleteTodo")]
-    public string DeleteTodo(int todoId)
+    public Todo DeleteTodo(Todo todo)
     {
-        using (var db = new Models.ToDoContext())
-            {
-                // Note: This sample requires the database to be created before running.
-                Console.WriteLine($"Database path: {db.DbPath}.");
-                
-                // Delete
-                Console.WriteLine("Delete the todo");
-                var existingTodo = db.Todos.Where(x=>x.TodoId==todoId).First();
-                db.Remove(existingTodo);
-                db.SaveChanges();
-                
-                //show new list
-                return String.Join(",",db.Todos.Select(x=> $"ID: {x.TodoId} Name: {x.TodoName}"));
-            }
+        return _repository.DeleteTodo(todo);
     }
 }

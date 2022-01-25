@@ -14,7 +14,7 @@ namespace TodoAPI.Models
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "todo.db");
+            DbPath = System.IO.Path.Join(path, "todo1.db");
         }
 
         // The following configures EF to create a Sqlite database file in the
@@ -23,11 +23,4 @@ namespace TodoAPI.Models
             => options.UseSqlite($"Data Source={DbPath}");
     }
 
-    public class Todo
-    {
-        public int TodoId { get; set; }
-        public string TodoName { get; set; }
-
-        public List<Todo> Todos { get; } = new();
-    }
 }
