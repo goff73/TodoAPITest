@@ -12,7 +12,7 @@ namespace TodoAPI.Models
 
         public ToDoContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var folder = Environment.SpecialFolder.LocalApplicationData; 
             var path = Environment.GetFolderPath(folder);
             DbPath = System.IO.Path.Join(path, "todo1.db");
         }
@@ -21,6 +21,6 @@ namespace TodoAPI.Models
         // special "local" folder for your platform.
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
-    }
 
+    }
 }

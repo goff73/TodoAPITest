@@ -3,17 +3,21 @@ using TodoAPI.Interfaces;
 
 namespace TodoAPI.Infrastructure
 {
-    public class TodoListRepository : ITodoListRepository
+    public class TodoListRepository : Repository<Todo>
     {
+        public TodoListRepository()
+        {
+            
+        }
         TodoAPI.Models.ToDoContext db= new TodoAPI.Models.ToDoContext();
-        public Todo AddTodo(Todo todo)
+        public Todo AddItem(Todo todo)
         {
             db.Add(todo);
             db.SaveChanges();
             return todo;
         }
 
-        public Todo UpdateTodo(Todo todo)
+        public Todo UpdateItem(Todo todo)
         {
             var existingTodo = db.Todos.Where(x=>x.TodoId==todo.TodoId).First();
             existingTodo.TodoName=todo.TodoName;
@@ -22,7 +26,7 @@ namespace TodoAPI.Infrastructure
             return todo;
         }
 
-        public Todo DeleteTodo(Todo todo)
+        public Todo DeleteItem(Todo todo)
         {
             var existingTodo = db.Todos.Where(x=>x.TodoId==todo.TodoId).First();
             db.Remove(existingTodo);
@@ -30,7 +34,7 @@ namespace TodoAPI.Infrastructure
             return todo;
         }
 
-        public List<Todo> GetTodos()
+        public List<Todo> GetList()
         {
             return db.Todos.ToList();
         }

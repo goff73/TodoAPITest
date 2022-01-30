@@ -2,11 +2,9 @@ using TodoAPI.Models;
 
 namespace TodoAPI.Interfaces
 {
-    public interface ITodoListRepository
+    public interface ITodoListRepository:IRepository<Todo>
     {
-        Todo AddTodo(Todo todo);
-        Todo UpdateTodo(Todo todo);
-        Todo DeleteTodo(Todo todo);
-        List<Todo> GetTodos();
+        //Here you could add specific methods
+        //IEnumerable<Todo> GetTodoByTodoListID(int todoListId);
     }
 }
