@@ -12,25 +12,26 @@ public class TodoController : ControllerBase
 
     private readonly ILogger<TodoController> _logger;
     private IRepository<Todo> _repository;
-    //private ITodoListRepository _todoListRepository;
 
     public TodoController(ILogger<TodoController> logger,IRepository<Todo> repository)
     {
         _repository=repository;
-        //_todoListRepository=todoListRepository;
         _logger = logger;
     }
 
     [HttpGet(Name = "GetExistingTodos")]
     public List<Todo> GetExistingTodos()
     {
-        return _repository.GetList();
+        var todo = _repository.GetList().Where(x=>x.Id==1).First();
+        var itemsCount = todo.TodoItems.Count();
+        var list = todo.TodoItems.ToList();
+        return _repository.GetList().ToList();
     }
 
     [HttpPost(Name = "AddTodo")]
     public Todo AddTodo(Todo todo)
     {
-        return _repository.AddItem(todo);
+         return _repository.AddItem(todo);
     }
 
     [HttpPut(Name = "UpdateTodo")]

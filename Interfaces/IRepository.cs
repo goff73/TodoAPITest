@@ -7,6 +7,6 @@ namespace TodoAPI.Interfaces
         T AddItem(T item);
         T UpdateItem(T item);
         T DeleteItem(T item);
-        List<T> GetList();
+        IEnumerable<T> GetList();
     }
 }

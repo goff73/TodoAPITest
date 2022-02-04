@@ -19,24 +19,17 @@ namespace TodoAPI.Infrastructure
 
         public Todo UpdateItem(Todo todo)
         {
-            var existingTodo = db.Todos.Where(x=>x.TodoId==todo.TodoId).First();
-            existingTodo.TodoName=todo.TodoName;
-            db.Update(existingTodo);
-            db.SaveChanges();
             return todo;
         }
 
         public Todo DeleteItem(Todo todo)
         {
-            var existingTodo = db.Todos.Where(x=>x.TodoId==todo.TodoId).First();
-            db.Remove(existingTodo);
-            db.SaveChanges();
             return todo;
         }
 
-        public List<Todo> GetList()
+        public IEnumerable<Todo> GetList()
         {
-            return db.Todos.ToList();
+            return db.Todo;
         }
     }
 }

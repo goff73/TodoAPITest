@@ -35,9 +35,9 @@ namespace TodoAPI.Infrastructure
             return item;
         }
 
-        public List<T> GetList()
+        public IEnumerable<T> GetList()
         {
-             return db.Todos.Select(x=>x).ToList().Cast<T>().ToList(); 
+             return db.Todo.Select(x=>x).ToList().Cast<T>().ToList(); 
         }
         
     }
