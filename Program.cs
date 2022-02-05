@@ -1,5 +1,6 @@
 using TodoAPI.Interfaces;
 using TodoAPI.Infrastructure;
+using TodoAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +15,10 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-// builder.Services.AddScoped<ITodoListRepository>();
+builder.Services.AddScoped<ToDoContext>(sp=>new ToDoContext());
+builder.Services.AddScoped<IRepository<Todo>,TodoListRepository>();
+builder.Services.AddScoped<IRepository<TodoItem>,TodoItemRepository>();
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
 var app = builder.Build();
 

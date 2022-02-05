@@ -3,10 +3,10 @@ using TodoAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace TodoAPI.Infrastructure
-{    
-    public class TodoListRepository : RepositoryBase<Todo>
+{
+    public class TodoItemRepository : RepositoryBase<TodoItem>
     {
-        public TodoListRepository(ToDoContext toDoContext):base((DbContext)toDoContext)
+        public TodoItemRepository(ToDoContext toDoContext):base((DbContext)toDoContext)
         {
             
         }

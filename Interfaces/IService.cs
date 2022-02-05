@@ -2,7 +2,7 @@ using TodoAPI.Models;
 
 namespace TodoAPI.Interfaces
 {
-    public interface IRepository<T> where T:ModelBase
+    public interface IService<T>
     {
         T Add(T item);
         T Update(T item);

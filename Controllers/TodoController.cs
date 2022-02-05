@@ -5,44 +5,47 @@ using TodoAPI.Interfaces;
 
 namespace TodoAPI.Controllers;
 
+
+
 [ApiController]
 [Route("[controller]")]
 public class TodoController : ControllerBase
 {
 
     private readonly ILogger<TodoController> _logger;
-    private IRepository<Todo> _repository;
+    private readonly IService<Todo> _service;
 
-    public TodoController(ILogger<TodoController> logger,IRepository<Todo> repository)
+    public TodoController(ILogger<TodoController> logger,IService<Todo> service)
     {
-        _repository=repository;
+        _service=service;
         _logger = logger;
     }
 
     [HttpGet(Name = "GetExistingTodos")]
     public List<Todo> GetExistingTodos()
     {
-        var todo = _repository.GetList().Where(x=>x.Id==1).First();
+        var todo = _service.Get().Where(x=>x.Id==1).First();
         var itemsCount = todo.TodoItems.Count();
         var list = todo.TodoItems.ToList();
-        return _repository.GetList().ToList();
+        return _service.Get().ToList();
     }
 
     [HttpPost(Name = "AddTodo")]
     public Todo AddTodo(Todo todo)
     {
-         return _repository.AddItem(todo);
+         return _service.Add(todo);
     }
 
     [HttpPut(Name = "UpdateTodo")]
     public Todo UpdateTodo(Todo todo)
     {
-        return _repository.UpdateItem(todo);
+        return _service.Update(todo);
     }
 
     [HttpDelete(Name = "DeleteTodo")]
-    public Todo DeleteTodo(Todo todo)
+    public bool DeleteTodo(int todoId)
     {
-        return _repository.DeleteItem(todo);
+        _service.Delete(todoId);
+        return true;
     }
 }
